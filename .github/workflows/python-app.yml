@@ -1,0 +1,30 @@
+name: Python CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+      - staging  # Corrected "Staging" to "staging" for consistency
+
+jobs:
+  test:  # "test" is a common and clear job name
+    runs-on: ubuntu-latest  # Specifies the operating system environment for the job
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2  # Uses the GitHub action to check out the repository's code
+      #Setup the python environment
+      - name: Set up Python
+        uses: actions/setup-python@v2  # Uses the GitHub action to set up Python
+        with:
+          python-version: '3.8'  # Specifies the Python version to use
+      # Install dependencies
+      - name: Install dependencies
+        run: |  # The '|' allows for multi-line commands
+          python -m pip install --upgrade pip  # Upgrades pip
+          pip install -r requirements.txt      # Installs dependencies from requirements.txt
+      # Run the test
+      - name: Run test
+        run: pytest
